@@ -235,12 +235,14 @@ int main(void)
 		// MAH 8/15/12- This used to be a function call- inlining it saves a few bytes.
 		LLEDPulse++;
 		uint8_t p = LLEDPulse >> 8;
-		if (p > 127)
-			TX_LED_OFF();
+		if (p > 127) {
+			TX_LED_F();
 			RX_LED_ON();
-		else
+		}
+		else {
 			TX_LED_ON();
 			RX_LED_OFF();
+		}
 	}
 
 	/* Disconnect from the host - USB interface will be reset later along with the AVR */
