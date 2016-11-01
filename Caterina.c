@@ -164,10 +164,6 @@ int main(void)
 	MCUCR = (1 << IVSEL);
 	
 	LED_SETUP();
-	
-	// set port of RX Led to output
-	DDRB |= (1<<0);
-
 	CPU_PRESCALE(0); 
 	L_LED_OFF();
 	TX_LED_ON();
@@ -236,13 +232,8 @@ int main(void)
 		if (Timeout > TIMEOUT_PERIOD)
 			RunBootloader = false;
 			
-		// MAH 8/15/12- This used to be a function call- inlining it saves a few bytes.
-		LLEDPulse++;
-		uint8_t p = LLEDPulse >> 8;
-		if (p > 127)
-			RX_LED_OFF();
-		else
-			RX_LED_ON();
+
+		RX_LED_ON();
 	}
 
 	/* Disconnect from the host - USB interface will be reset later along with the AVR */
