@@ -164,6 +164,10 @@ int main(void)
 	MCUCR = (1 << IVSEL);
 	
 	LED_SETUP();
+	
+	// set port of RX Led to output
+	DDRB |= (1<<0)
+
 	CPU_PRESCALE(0); 
 	L_LED_OFF();
 	TX_LED_ON();
