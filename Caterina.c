@@ -167,7 +167,7 @@ int main(void)
 	CPU_PRESCALE(0); 
 	L_LED_OFF();
 	TX_LED_OFF();
-	RX_LED_ON();
+	RX_LED_OFF();
 	
 	// Initialize TIMER1 to handle bootloader timeout and LED tasks.  
 	// With 16 MHz clock and 1/64 prescaler, timer 1 is clocked at 250 kHz
@@ -212,6 +212,9 @@ int main(void)
 	else if ( (mcusr_state & (1<<WDRF) ) && (bootKeyPtrVal != bootKey) && sketchPresent) {	
 		// If it looks like an "accidental" watchdog reset then start the sketch.
 		StartSketch();
+	} else if (bootKeyPtrVal == bootKey) {
+		// bootkey was set from someone else who wants to run bootloader
+		RunBootloader = true;
 	}
 	
 	// END ALL COMMENTS ON THIS SECTION FROM MAH.
@@ -233,6 +236,7 @@ int main(void)
 			RunBootloader = false;
 			
 		// MAH 8/15/12- This used to be a function call- inlining it saves a few bytes.
+		// tic toc with rx tx led instead of heartbeat
 		LLEDPulse++;
 		uint8_t p = LLEDPulse >> 8;
 		if (p > 127) {
