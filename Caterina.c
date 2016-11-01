@@ -166,8 +166,8 @@ int main(void)
 	LED_SETUP();
 	CPU_PRESCALE(0); 
 	L_LED_OFF();
-	TX_LED_OFF();
-	RX_LED_OFF();
+	TX_LED_ON();
+	RX_LED_ON();
 	
 	// Initialize TIMER1 to handle bootloader timeout and LED tasks.  
 	// With 16 MHz clock and 1/64 prescaler, timer 1 is clocked at 250 kHz
@@ -239,9 +239,9 @@ int main(void)
 			p = 254-p;
 		p += p;
 		if (((uint8_t)LLEDPulse) > p)
-			TX_LED_OFF();
+			RX_LED_OFF();
 		else
-			TX_LED_ON();
+			RX_LED_ON();
 	}
 
 	/* Disconnect from the host - USB interface will be reset later along with the AVR */
