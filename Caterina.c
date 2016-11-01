@@ -166,7 +166,7 @@ int main(void)
 	LED_SETUP();
 	CPU_PRESCALE(0); 
 	L_LED_OFF();
-	TX_LED_ON();
+	TX_LED_OFF();
 	RX_LED_ON();
 	
 	// Initialize TIMER1 to handle bootloader timeout and LED tasks.  
@@ -232,8 +232,16 @@ int main(void)
 		if (Timeout > TIMEOUT_PERIOD)
 			RunBootloader = false;
 			
-
-		RX_LED_ON();
+		// MAH 8/15/12- This used to be a function call- inlining it saves a few bytes.
+		LLEDPulse++;
+		uint8_t p = LLEDPulse >> 8;
+		if (p > 127)
+			p = 254-p;
+		p += p;
+		if (((uint8_t)LLEDPulse) > p)
+			RX_LED_OFF();
+		else
+			RX_LED_ON();
 	}
 
 	/* Disconnect from the host - USB interface will be reset later along with the AVR */
