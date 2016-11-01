@@ -236,7 +236,7 @@ int main(void)
 		LLEDPulse++;
 		uint8_t p = LLEDPulse >> 8;
 		if (p > 127) {
-			TX_LED_F();
+			TX_LED_OFF();
 			RX_LED_ON();
 		}
 		else {
