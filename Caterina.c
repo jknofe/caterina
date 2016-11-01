@@ -239,9 +239,9 @@ int main(void)
 			p = 254-p;
 		p += p;
 		if (((uint8_t)LLEDPulse) > p)
-			RX_LED_OFF();
+			TX_LED_OFF();
 		else
-			RX_LED_ON();
+			TX_LED_ON();
 	}
 
 	/* Disconnect from the host - USB interface will be reset later along with the AVR */
