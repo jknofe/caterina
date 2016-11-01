@@ -166,7 +166,7 @@ int main(void)
 	LED_SETUP();
 	
 	// set port of RX Led to output
-	DDRB |= (1<<0)
+	DDRB |= (1<<0);
 
 	CPU_PRESCALE(0); 
 	L_LED_OFF();
