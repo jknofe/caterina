@@ -75,6 +75,9 @@ uint16_t RxLEDPulse = 0; // time remaining for Rx LED pulse
 #define EXT_RESET_TIMEOUT_PERIOD  750
 #endif
 
+// bootloader request flag position in eeprom
+#define EE_REQBL	0x33
+
 // MAH 8/15/12- make this volatile, since we modify it in one place and read it in another, we want to make
 //  sure we're always working on the copy in memory and not an erroneous value stored in a cache somewhere.
 volatile uint16_t Timeout = 0;
@@ -183,7 +186,9 @@ int main(void)
 	
 	// MAH 8/15/12- this replaces bulky pgm_read_word(0) calls later on, to save memory.
 	if (pgm_read_word(0) != 0xFFFF) sketchPresent = true;
-	
+	if(eeprom_read_byte(EE_REQBL)) {
+		*bootKeyPtr = bootKey;
+	} 	
 	// MAH 8/15/12- quite a bit changed in this section- let's just pretend nothing has been reserved
 	//  and all comments throughout are from me.
 	// First case: external reset, bootKey NOT in memory. We'll put the bootKey in memory, then spin
@@ -212,8 +217,9 @@ int main(void)
 	else if ( (mcusr_state & (1<<WDRF) ) && (bootKeyPtrVal != bootKey) && sketchPresent) {	
 		// If it looks like an "accidental" watchdog reset then start the sketch.
 		StartSketch();
-	} else if (bootKeyPtrVal == bootKey) {
-		// bootkey was set from someone else who wants to run bootloader
+	} 
+	// bootkey was set from aculfw via eeprom 0x33 == true (EE_REQBL)
+	else if ((mcusr_state & (1<<WDRF)) && bootKeyPtrVal == bootKey) {
 		RunBootloader = true;
 	}
 	
