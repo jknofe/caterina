@@ -68,10 +68,10 @@ uint16_t RxLEDPulse = 0; // time remaining for Rx LED pulse
 /* Bootloader timeout timer */
 // MAH 8/15/12- add this switch so timeouts work properly when the chip is running at 8MHz instead of 16.
 #if F_CPU == 8000000 
-#define TIMEOUT_PERIOD	4000
+#define TIMEOUT_PERIOD	8000
 #define EXT_RESET_TIMEOUT_PERIOD	375
 #else
-#define TIMEOUT_PERIOD  8000
+#define TIMEOUT_PERIOD  16000
 #define EXT_RESET_TIMEOUT_PERIOD  750
 #endif
 
