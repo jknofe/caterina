@@ -242,6 +242,7 @@ int main(void)
 			RunBootloader = false;
 			// reset eeprom bootloader request flag
 			eeprom_write_byte(EE_REQBL,0);
+			eeprom_busy_wait();
 		}
 			
 		// MAH 8/15/12- This used to be a function call- inlining it saves a few bytes.
