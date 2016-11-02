@@ -187,7 +187,8 @@ int main(void)
 	// MAH 8/15/12- this replaces bulky pgm_read_word(0) calls later on, to save memory.
 	if (pgm_read_word(0) != 0xFFFF) sketchPresent = true;
 	if(eeprom_read_byte(EE_REQBL)) {
-		*bootKeyPtr = bootKey;
+		// boot key will not be in ram after wda reset from a-culfw, we simulate that
+		bootKeyPtrVal = bootKey;
 	} 	
 	// MAH 8/15/12- quite a bit changed in this section- let's just pretend nothing has been reserved
 	//  and all comments throughout are from me.
@@ -219,9 +220,9 @@ int main(void)
 		StartSketch();
 	} 
 	// bootkey was set from aculfw via eeprom 0x33 == true (EE_REQBL)
-	else if ((mcusr_state & (1<<WDRF)) && bootKeyPtrVal == bootKey) {
-		RunBootloader = true;
-	}
+	//else if ((mcusr_state & (1<<WDRF)) && bootKeyPtrVal == bootKey) {
+	//	RunBootloader = true;
+	//}
 	
 	// END ALL COMMENTS ON THIS SECTION FROM MAH.
 	
